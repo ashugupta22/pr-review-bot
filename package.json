@@ -1,0 +1,23 @@
+{
+  "name": "gh-pr-review-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub PR review bot using OpenAI to post inline suggestions",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "NODE_ENV=development node src/index.js",
+    "lint": "node -e \"require('fs');console.log('No linter configured');\""
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.1.1",
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2"
+  }
+}
+
+

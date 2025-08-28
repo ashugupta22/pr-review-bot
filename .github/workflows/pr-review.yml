@@ -1,0 +1,25 @@
+name: PR AI Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run PR AI Review Action
+        uses: ./
+        with:
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          openai_model: gpt-4o-mini
+          diff_chunk_size: "12000"
+          review_prompt: ''
+
+
