@@ -20,7 +20,6 @@ export function buildLinePositionMap(files) {
     const fileMap = new Map();
 
     const lines = patch.split('\n');
-    console.log("test to check lines",lines);
     let newLineNum = 0;
     let position = 0;
     for (const line of lines) {

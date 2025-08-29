@@ -2,6 +2,10 @@ import { Octokit } from '@octokit/rest';
 
 export class GitHubClient {
   constructor({ token, owner, repo, pullNumber }) {
+    console.log("test to check token",token);
+    console.log("test to check owner",owner);
+    console.log("test to check repo",repo);
+    console.log("test to check pullNumber",pullNumber);
     this.octokit = new Octokit({ auth: token });
     this.owner = owner;
     this.repo = repo;

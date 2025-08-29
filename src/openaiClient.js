@@ -28,28 +28,51 @@ export class OpenAIClient {
       response_format: { type: 'json_object' },
     };
 
-    const res = await fetch(OPENAI_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.apiKey}`,
-      },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-      const t = await res.text();
-      throw new Error(`OpenAI API error ${res.status}: ${t}`);
-    }
-    const data = await res.json();
-    const content = data.choices?.[0]?.message?.content || '{}';
-    let parsed;
     try {
-      parsed = JSON.parse(content);
-    } catch (e) {
-      parsed = { issues: [] };
+      const res = await fetch(OPENAI_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.apiKey}`,
+        },
+        body: JSON.stringify(body),
+      });
+      
+      if (!res.ok) {
+        const errorText = await res.text();
+        let errorMessage = `OpenAI API error ${res.status}: ${errorText}`;
+        
+        // Provide more specific error messages
+        if (res.status === 401) {
+          errorMessage = 'OpenAI API key is invalid or expired';
+        } else if (res.status === 429) {
+          errorMessage = 'OpenAI API rate limit exceeded';
+        } else if (res.status === 500) {
+          errorMessage = 'OpenAI API server error';
+        }
+        
+        throw new Error(errorMessage);
+      }
+      
+      const data = await res.json();
+      const content = data.choices?.[0]?.message?.content || '{}';
+      
+      let parsed;
+      try {
+        parsed = JSON.parse(content);
+      } catch (e) {
+        console.warn('[warn] Failed to parse OpenAI response as JSON:', content.substring(0, 200));
+        parsed = { issues: [] };
+      }
+      
+      const issues = Array.isArray(parsed) ? parsed : parsed.issues || [];
+      return issues;
+    } catch (err) {
+      if (err.name === 'TypeError' && err.message.includes('fetch')) {
+        throw new Error('Network error connecting to OpenAI API');
+      }
+      throw err;
     }
-    const issues = Array.isArray(parsed) ? parsed : parsed.issues || [];
-    return issues;
   }
 }
 

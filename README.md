@@ -62,6 +62,12 @@ jobs:
 - Filters trivial feedback and duplicates from existing PR review comments
 - Posts batched review comments using the Review API
 
+## Error Handling
+- Workflow fails if OpenAI API key is invalid or expired
+- Workflow fails if all OpenAI API calls fail
+- Workflow fails if GitHub API calls fail
+- Individual chunk failures are logged but don't fail the entire workflow unless all chunks fail
+
 ## Prompt Template
 See `prompt.md` for the base prompt used when `REVIEW_PROMPT` is not provided.
 
