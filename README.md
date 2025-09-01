@@ -1,31 +1,82 @@
-# GitHub PR Review Bot (Node.js + OpenAI)
+# 🤖 GitHub PR Review Bot
 
-Automated PR reviewer that analyzes diffs and posts inline suggestions using the OpenAI API.
+Automated PR reviewer that analyzes diffs and posts inline suggestions using OpenAI. Get AI-powered code reviews on every pull request!
 
-## Features
-- Triggers on PR opened, synchronize, ready_for_review
-- Fetches PR diffs and chunks for LLM processing
-- Reviews for readability, maintainability, security, performance
-- Returns structured JSON and posts inline review comments
-- Filters trivial/duplicate comments
-- Runs as a GitHub Action
+## 📋 Table of Contents
 
-## Setup (GitHub Actions)
+- [✨ Features](#-features)
+- [🚀 Quick Setup](#-quick-setup-choose-one)
+- [📋 Prerequisites](#-prerequisites)
+- [🔧 Configuration](#configuration)
+- [⚙️ How it Works](#how-it-works)
+- [🛠️ Error Handling](#error-handling)
+- [📝 Prompt Template](#prompt-template)
+- [📚 Notes and Limitations](#notes-and-limitations)
+- [📄 License](#license)
 
-### Prerequisites
+## ✨ Features
+
+- 🤖 **AI-Powered Reviews**: Uses OpenAI to analyze code quality, security, and performance
+- 📝 **Inline Comments**: Posts specific suggestions directly on code lines
+- 🔄 **Auto-Triggered**: Runs on PR open, sync, and ready-for-review events
+- 🛡️ **Smart Filtering**: Avoids duplicate and trivial comments
+- 🌍 **Language Agnostic**: Works with any programming language
+- ⚡ **Fast & Efficient**: Chunks large diffs for optimal processing
+
+## 🚀 Quick Setup (Choose One)
+
+### Option 1: One-Click Setup (Recommended)
+```bash
+npx ashugupta22/pr-review-bot@v1.0.0 setup
+```
+Then add your OpenAI API key as a repository secret named `OPENAI_API_KEY`.
+
+### Option 2: Manual Setup
+1. Create `.github/workflows/pr-review.yml` in your repository:
+```yaml
+name: PR AI Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run PR AI Review Action
+        uses: ashugupta22/pr-review-bot@v1.0.0
+        with:
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          openai_model: gpt-4o-mini
+          diff_chunk_size: "12000"
+          review_prompt: ''
+```
+
+2. Add your OpenAI API key as a repository secret named `OPENAI_API_KEY`
+
+## 📋 Prerequisites
+
 - GitHub repository with Actions enabled
-- OpenAI API key with access to `gpt-4o-mini` (or set `OPENAI_MODEL`)
-
-### Steps (use locally in this repo)
-1. Add repo secret `OPENAI_API_KEY` (Repository Settings → Secrets and variables → Actions → New repository secret).
-2. Ensure the workflow has `pull-requests: write` permissions (already configured).
-3. Commit the workflow at `.github/workflows/pr-review.yml`.
+- OpenAI API key (get one from [OpenAI Platform](https://platform.openai.com/api-keys))
 
 The Action runs on PR events (opened, synchronize, ready_for_review) and posts a single batched review with inline comments.
 
 ### Use as a reusable Action in multiple repos
-1. Push/tag this repository (the action source) to GitHub.
-2. In each target repository, create a workflow like:
+
+#### Quick Setup (Recommended)
+```bash
+npx ashugupta22/pr-review-bot@v1.0.0 setup
+```
+
+#### Manual Setup
+1. In each target repository, create a workflow like:
 ```yaml
 name: PR AI Review
 on:
@@ -39,14 +90,14 @@ jobs:
       pull-requests: write
     steps:
       - name: Run PR AI Review Action
-        uses: owner/repo@v1   # replace with your action repo and tag
+        uses: ashugupta22/pr-review-bot@v1.0.0
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           openai_model: gpt-4o-mini
           diff_chunk_size: "12000"
           review_prompt: ''
 ```
-3. Add `OPENAI_API_KEY` secret in each target repository.
+2. Add `OPENAI_API_KEY` secret in each target repository.
 
 ## Configuration
 - `OPENAI_API_KEY`: OpenAI key (required)

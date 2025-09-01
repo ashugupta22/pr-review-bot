@@ -5,10 +5,14 @@
   "description": "GitHub PR review bot using OpenAI to post inline suggestions",
   "main": "src/index.js",
   "type": "module",
+  "bin": {
+    "pr-review-bot-setup": "./setup.js"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "NODE_ENV=development node src/index.js",
-    "lint": "node -e \"require('fs');console.log('No linter configured');\""
+    "lint": "node -e \"require('fs');console.log('No linter configured');\"",
+    "setup": "node setup.js"
   },
   "engines": {
     "node": ">=18.18.0"
