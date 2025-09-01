@@ -1,7 +1,7 @@
 {
-  "name": "gh-pr-review-bot",
+  "name": "@ashugupta22/pr-review-bot",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "GitHub PR review bot using OpenAI to post inline suggestions",
   "main": "src/index.js",
   "type": "module",
