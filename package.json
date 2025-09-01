@@ -1,10 +1,25 @@
 {
-  "name": "@ashugupta22/pr-review-bot",
+  "name": "pr-review-bot",
   "version": "1.0.0",
   "private": false,
   "description": "GitHub PR review bot using OpenAI to post inline suggestions",
   "main": "src/index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashugupta22/pr-review-bot.git"
+  },
+  "keywords": [
+    "github",
+    "pr",
+    "review",
+    "openai",
+    "ai",
+    "code-review",
+    "github-actions"
+  ],
+  "author": "ashugupta22",
+  "license": "MIT",
   "bin": {
     "pr-review-bot-setup": "./setup.js"
   },
