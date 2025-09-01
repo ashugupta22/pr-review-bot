@@ -27,7 +27,13 @@ runs:
 
     - name: Install deps
       shell: bash
-      run: npm ci || npm install
+      run: |
+        npm install --no-audit --no-fund
+        echo "Dependencies installed successfully"
+        echo "Verifying package.json:"
+        cat package.json
+        echo "Available scripts:"
+        npm run
 
     - name: Run PR review bot
       shell: bash
@@ -39,6 +45,17 @@ runs:
         OPENAI_MODEL: ${{ inputs.openai_model }}
         DIFF_CHUNK_SIZE: ${{ inputs.diff_chunk_size }}
         REVIEW_PROMPT: ${{ inputs.review_prompt }}
-      run: npm start
+      run: |
+        echo "Starting PR review bot..."
+        echo "Node version: $(node --version)"
+        echo "NPM version: $(npm --version)"
+        echo "Current directory: $(pwd)"
+        echo "Files in current directory: $(ls -la)"
+        echo "Package.json contents:"
+        cat package.json
+        echo "Available scripts:"
+        npm run
+        echo "Running the bot directly:"
+        node src/index.js
 
 
