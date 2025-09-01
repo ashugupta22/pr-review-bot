@@ -1,5 +1,5 @@
 {
-  "name": "pr-review-bot",
+  "name": "ai-pr-bot",
   "version": "1.0.0",
   "private": false,
   "description": "GitHub PR review bot using OpenAI to post inline suggestions",
