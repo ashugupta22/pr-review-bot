@@ -21,6 +21,7 @@
   "author": "ashugupta22",
   "license": "MIT",
   "bin": {
+    "pr-review-bot": "./src/index.js",
     "pr-review-bot-setup": "./setup.js"
   },
   "scripts": {
@@ -36,7 +37,9 @@
     "@octokit/rest": "^20.1.1",
     "dotenv": "^16.4.5",
     "node-fetch": "^3.3.2"
-  }
+  },
+  "files": [
+    "src",
+    "setup.js"
+  ]
 }
-
-
