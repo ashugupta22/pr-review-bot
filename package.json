@@ -21,8 +21,7 @@
   "author": "ashugupta22",
   "license": "MIT",
   "bin": {
-    "pr-review-bot": "./src/index.js",
-    "pr-review-bot-setup": "./setup.js"
+    "ai-pr-bot": "./setup.js"
   },
   "scripts": {
     "start": "node src/index.js",
@@ -39,7 +38,6 @@
     "node-fetch": "^3.3.2"
   },
   "files": [
-    "src",
     "setup.js"
   ]
 }
