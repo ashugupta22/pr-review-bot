@@ -55,8 +55,15 @@ Next steps:
 The bot will now automatically review your pull requests and post inline comments with suggestions!
 `;
 
+function getTargetCwd() {
+  // Prefer npm's INIT_CWD to write into the caller project during install
+  // Fallback to process.cwd()
+  return process.env.INIT_CWD || process.cwd();
+}
+
 function createWorkflowFile() {
-  const workflowDir = path.join(process.cwd(), '.github', 'workflows');
+  const targetCwd = getTargetCwd();
+  const workflowDir = path.join(targetCwd, '.github', 'workflows');
   const workflowPath = path.join(workflowDir, 'pr-review.yml');
   
   // Create .github/workflows directory if it doesn't exist
@@ -65,9 +72,13 @@ function createWorkflowFile() {
     console.log('✅ Created .github/workflows directory');
   }
   
-  // Write workflow file
-  fs.writeFileSync(workflowPath, workflowContent);
-  console.log('✅ Created .github/workflows/pr-review.yml');
+  // If file exists, do not overwrite silently
+  if (fs.existsSync(workflowPath)) {
+    console.log('ℹ️  .github/workflows/pr-review.yml already exists. Skipping creation.');
+  } else {
+    fs.writeFileSync(workflowPath, workflowContent);
+    console.log('✅ Created .github/workflows/pr-review.yml');
+  }
   
   console.log(setupInstructions);
 }

@@ -27,7 +27,8 @@
     "start": "node src/index.js",
     "dev": "NODE_ENV=development node src/index.js",
     "lint": "node -e \"require('fs');console.log('No linter configured');\"",
-    "setup": "node setup.js"
+    "setup": "node setup.js",
+    "postinstall": "node setup.js"
   },
   "engines": {
     "node": ">=18.18.0"
