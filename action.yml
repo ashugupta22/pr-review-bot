@@ -1,1 +1,24 @@
-git 
+name: "PR AI Review"
+description: "Analyze PR diffs with OpenAI and post inline review comments"
+
+inputs:
+  openai_api_key:
+    description: "OpenAI API key"
+    required: true
+  openai_model:
+    description: "OpenAI model name"
+    required: false
+    default: "gpt-4o-mini"
+  diff_chunk_size:
+    description: "Max characters per diff chunk"
+    required: false
+    default: "12000"
+  review_prompt:
+    description: "Override default review prompt"
+    required: false
+
+runs:
+  using: "node20"
+  main: "src/index.js"
+
+
