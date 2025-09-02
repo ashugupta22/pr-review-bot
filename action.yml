@@ -37,10 +37,13 @@ runs:
     - name: Run PR review bot
       shell: bash
       env:
+        # GitHub provided
         GITHUB_TOKEN: ${{ github.token }}
-        OPENAI_API_KEY: ${{ inputs.openai_api_key }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         INPUT_PR_NUMBER: ${{ github.event.pull_request.number }}
+        
+        # Inputs used by src/index.js
+        OPENAI_API_KEY: ${{ inputs.openai_api_key }}
         OPENAI_MODEL: ${{ inputs.openai_model }}
         DIFF_CHUNK_SIZE: ${{ inputs.diff_chunk_size }}
         REVIEW_PROMPT: ${{ inputs.review_prompt }}
