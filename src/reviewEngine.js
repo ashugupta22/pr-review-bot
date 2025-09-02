@@ -75,12 +75,21 @@ export class ReviewEngine {
       const filtered = dedupeNewComments(issues.filter(isMeaningfulComment), existing);
 
       const reviewComments = [];
+      const toGithubSuggestionBlock = (suggestion) => {
+        if (!suggestion) return null;
+        // Extract code inside a single fenced block. Accept ```lang ... ``` or ``` ... ```
+        const fenceRegex = /```[a-zA-Z0-9+\-_.]*\n([\s\S]*?)```/m;
+        const m = fenceRegex.exec(suggestion);
+        const code = m ? m[1] : suggestion;
+        return `\n\n\u0060\u0060\u0060suggestion\n${code}\n\u0060\u0060\u0060`;
+      };
       for (const i of filtered) {
         const fileMap = linePositionMap.get(i.file);
         if (!fileMap) continue;
         const position = fileMap.get(Number(i.line));
         if (!position) continue;
-        const body = `${i.comment}\n\n${i.suggestion}`;
+        const suggestionBlock = toGithubSuggestionBlock(i.suggestion);
+        const body = suggestionBlock ? `${i.comment}${suggestionBlock}` : `${i.comment}`;
         reviewComments.push({ path: i.file, position, body });
       }
 
