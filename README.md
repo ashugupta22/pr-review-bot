@@ -27,7 +27,7 @@ Automated PR reviewer that analyzes diffs and posts inline suggestions using Ope
 
 ### Option 1: One-Click Setup (Recommended)
 ```bash
-npx ai-pr-bot@v1.0.0 setup
+npx pr-review-ai-bot@v1.0.0 setup
 ```
 Then add your OpenAI API key as a repository secret named `OPENAI_API_KEY`.
 
@@ -72,7 +72,7 @@ The Action runs on PR events (opened, synchronize, ready_for_review) and posts a
 
 #### Quick Setup (Recommended)
 ```bash
-npx ai-pr-bot@v1.0.0 setup
+npx pr-review-ai-bot@v1.0.0 setup
 ```
 
 #### Manual Setup

@@ -1,5 +1,5 @@
 {
-  "name": "ai-pr-bot",
+  "name": "pr-review-ai-bot",
   "version": "1.0.0",
   "private": false,
   "description": "GitHub PR review bot using OpenAI to post inline suggestions",
@@ -21,7 +21,7 @@
   "author": "ashugupta22",
   "license": "MIT",
   "bin": {
-    "ai-pr-bot": "./setup.js"
+    "pr-review-ai-bot": "./setup.js"
   },
   "scripts": {
     "start": "node src/index.js",
