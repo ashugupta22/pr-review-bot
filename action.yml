@@ -18,7 +18,34 @@ inputs:
     required: false
 
 runs:
-  using: "node20"
-  main: "src/index.js"
+  using: "composite"
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install action dependencies
+      shell: bash
+      run: |
+        echo "Installing dependencies in action directory: $GITHUB_ACTION_PATH"
+        cd "$GITHUB_ACTION_PATH"
+        npm install --no-audit --no-fund
+        echo "Dependencies installed. Listing files:"
+        ls -la
+
+    - name: Run PR review bot
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        INPUT_PR_NUMBER: ${{ github.event.pull_request.number }}
+        OPENAI_MODEL: ${{ inputs.openai_model }}
+        DIFF_CHUNK_SIZE: ${{ inputs.diff_chunk_size }}
+        REVIEW_PROMPT: ${{ inputs.review_prompt }}
+      run: |
+        echo "Starting PR review bot from action path: $GITHUB_ACTION_PATH"
+        node "$GITHUB_ACTION_PATH/src/index.js"
 
 
